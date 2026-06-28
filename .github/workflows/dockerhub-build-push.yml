@@ -54,14 +54,21 @@ concurrency:
 
 jobs:
   build:
-    # Trigger on: 1) exact "publish" commit message, or 2) merge commits containing "publish"
+    # Trigger when the commit message STARTS WITH "publish" — this tolerates a
+    # trailing body/trailers (e.g. an auto-added "Co-Authored-By:" line), which
+    # an exact == 'publish' match would reject, silently skipping the build.
+    # Also triggers on merge commits whose message contains "publish".
     if: >-
       ${{
-        inputs.caller_commit_message == 'publish' ||
+        startsWith(inputs.caller_commit_message, 'publish') ||
         (startsWith(inputs.caller_commit_message, 'Merge ') && contains(inputs.caller_commit_message, 'publish'))
       }}
 
-    runs-on: ubuntu-latest
+    # Native arm64 runner — all images target linux/arm64 and deploy on M-series
+    # (arm64) hosts, so build natively. This replaces the old ubuntu-latest +
+    # QEMU emulation path, which was tolerable for small images but effectively
+    # hung on the heavy Next.js web build.
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -78,8 +85,7 @@ jobs:
           echo "IMAGE_NAME=$(echo "$RAW_IMAGE_NAME" | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_ENV"
           echo "BRANCH_LOWER=$(echo '${{ github.ref_name }}' | tr '[:upper:]' '[:lower:]' | tr '/' '-')" >> "$GITHUB_ENV"
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+      # No QEMU — the runner is already arm64, so linux/arm64 builds run natively.
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
