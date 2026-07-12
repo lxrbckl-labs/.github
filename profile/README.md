@@ -1,4 +1,4 @@
-# lxrbckl-dev
+# lxrbckl-labs
 
 Personal development organization spanning 2019 to 2026. A collection of projects across automation, self-hosted infrastructure, hardware integration, and applied research. Many projects have evolved through multiple major releases, reflecting an iterative approach to building software that solves real problems.
 
