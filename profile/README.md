@@ -14,4 +14,4 @@ Personal development organization spanning 2019 to 2026. A collection of project
 
 ## Board
 
-[Kanban Board](https://github.com/orgs/lxrbckl-dev/projects/1) · Tracks active work across the organization.
+[Kanban Board](https://github.com/orgs/lxrbckl-labs/projects/1) · Tracks active work across the organization.

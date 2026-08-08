@@ -8,7 +8,7 @@ on:
 
 jobs:
   docker:
-    uses: lxrbckl-dev/.github/.github/workflows/dockerhub-build-push.yml@main
+    uses: lxrbckl-labs/.github/.github/workflows/dockerhub-build-push.yml@main
     secrets: inherit
     with:
       caller_event_name: ${{ github.event_name }}
